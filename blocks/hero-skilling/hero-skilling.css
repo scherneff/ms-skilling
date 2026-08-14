@@ -23,7 +23,13 @@
   margin: 0;
   padding: 40px 20px;
   background-color: rgb(241 236 229); /* warm parchment behind swirl */
-  background-image: url('https://aiskillsnavigator.microsoft.com/assets/unauthBanner-_k6h_df9.png');
+
+  /* Optimized, committed banner (webp with jpg fallback). Original source PNG
+     was 2.5 MB / 3994px; this is resized to 1920px and re-encoded to ~16 KB. */
+  background-image: image-set(
+    url('banner.webp') type('image/webp'),
+    url('banner.jpg') type('image/jpeg')
+  );
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
