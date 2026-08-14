@@ -1,0 +1,111 @@
+/* hero-skilling — AI Skills Navigator intro banner
+ * Source: https://aiskillsnavigator.microsoft.com/ (Fluent UI hero band)
+ * Full-bleed decorative banner with centered large title + subtitle.
+ * Values extracted from source computed styles.
+ */
+
+/* Full-bleed: escape the section's max-width wrapper */
+.hero-skilling-container .hero-skilling-wrapper {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Banner band */
+.hero-skilling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  box-sizing: border-box;
+  min-height: 240px;
+  margin: 0;
+  padding: 40px 20px;
+  background-color: rgb(241 236 229); /* warm parchment behind swirl */
+  background-image: url('https://aiskillsnavigator.microsoft.com/assets/unauthBanner-_k6h_df9.png');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  color: var(--asn-text, #242424);
+  text-align: center;
+}
+
+/* Title + subtitle wrapper (div.hero-skilling-text > div) */
+.hero-skilling .hero-skilling-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.hero-skilling .hero-skilling-text > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* H1 — override global serif heading with Fluent Segoe stack */
+.hero-skilling h1 {
+  margin: 0;
+  font-family: var(--asn-font-family);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: var(--asn-text, #242424);
+}
+
+/* H2 — subtitle */
+.hero-skilling h2 {
+  margin: 0;
+  font-family: var(--asn-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  color: var(--asn-text, #242424);
+}
+
+/* Tablet */
+@media (width >= 600px) {
+  .hero-skilling {
+    gap: 24px;
+    padding: 48px 24px;
+    min-height: 280px;
+  }
+
+  .hero-skilling h1 {
+    font-size: 34px;
+  }
+
+  .hero-skilling h2 {
+    font-size: 26px;
+  }
+}
+
+/* Desktop — exact source values */
+@media (width >= 900px) {
+  .hero-skilling {
+    gap: 28px;
+    padding: 56px 28px;
+    min-height: 333px;
+  }
+
+  .hero-skilling .hero-skilling-text,
+  .hero-skilling .hero-skilling-text > div {
+    gap: 28px;
+  }
+
+  .hero-skilling h1 {
+    font-size: var(--asn-heading-xxl, 40px); /* 40px / 52px */
+    line-height: 52px;
+  }
+
+  .hero-skilling h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}

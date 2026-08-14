@@ -1,0 +1,39 @@
+{
+  "variantName": "tabs-audience",
+  "baseBlock": "tabs",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "audience-selector",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "audience tab labels + per-audience content panels"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "audience/interest selectors",
+      "segmented catalog navigation"
+    ],
+    "notSuitableFor": [
+      "simple two-panel toggles",
+      "accordion-style FAQ"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Audience/interest tab selector switching between per-audience content panels (underline tab bar).",
+  "integrationCaveat": "Project tabs block is section-metadata driven (data-tab-id/data-tab-title on adjacent .section elements) and also auto-wired via createTabs() in scripts.js, which builds a '.tabs' container. This variant's decorate() still relies on adjacent tab sections; the '.tabs-audience' CSS applies when the block root carries the 'tabs-audience' class. Reconcile the exact authoring model (section-tabs vs table-tabs) and createTabs wiring in the block-mapping / import-infrastructure step."
+}

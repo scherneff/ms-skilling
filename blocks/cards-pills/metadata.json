@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-pills",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "value-prop-pills",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + short label"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "value-proposition pill rows",
+      "icon + short label feature strips"
+    ],
+    "notSuitableFor": [
+      "long descriptive cards",
+      "image-heavy grids"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Compact value-proposition pills: small icon + short label in a single row."
+}

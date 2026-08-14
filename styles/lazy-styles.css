@@ -110,7 +110,7 @@ a:any-link {
 }
 
 /* H2 accent — thin brand-gradient bar beneath h2 in plain content sections */
-:is(main, article.article-body) > .section:not(.hero-container, .gradient, .ink, .rust) h2::after {
+:is(main, article.article-body) > .section:not(.hero-container, .hero-skilling-container, .columns-quote-container, .gradient, .ink, .rust) h2::after {
   content: '';
   display: block;
   width: 2.5rem;
@@ -120,7 +120,7 @@ a:any-link {
   border-radius: 1px;
 }
 
-:is(main, article.article-body) > .section.center:not(.hero-container, .gradient, .ink, .rust) h2::after {
+:is(main, article.article-body) > .section.center:not(.hero-container, .hero-skilling-container, .columns-quote-container, .gradient, .ink, .rust) h2::after {
   margin-inline: auto;
 }
 

@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-credential",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "credential-cards",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + content-type badge + title"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "credential/highlight card rows",
+      "3-up media cards with an overlaid badge"
+    ],
+    "notSuitableFor": [
+      "text-only cards",
+      "tabular data"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Static 3-up credential cards: dark thumbnail with overlaid content-type badge + H3 title (no duration/date)."
+}

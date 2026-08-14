@@ -1,0 +1,76 @@
+/*
+ * tabs-audience — AI Skills Navigator audience selector.
+ * Source: div.fui-TabList on https://aiskillsnavigator.microsoft.com/
+ * Renders the authored audience labels as a wrapping horizontal row of
+ * Fluent-UI style pills. The active (first) audience is a filled light-purple
+ * pill; inactive audiences are plain text; the trailing "Explore more content"
+ * label is an outlined pill.
+ *
+ * Decorated DOM (decorate() returns early — no adjacent tab sections):
+ *   .tabs-audience > div (row) > div (cell) > p (label)
+ * All values extracted from source getComputedStyle.
+ */
+
+.tabs-audience {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px; /* source rowGap/columnGap 10px */
+  color: var(--asn-text);
+  font-family: var(--asn-font-family);
+}
+
+/* Each row = one pill */
+.tabs-audience > div {
+  display: flex;
+  margin: 0;
+}
+
+/* Cell wraps the label; make it the visible pill */
+.tabs-audience > div > div {
+  display: grid; /* source fui-Tab display: grid */
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 32px; /* source height 32px */
+  padding: 5px 10px; /* source */
+  border: 1px solid transparent; /* source */
+  border-radius: 12px; /* source --asn-card-radius */
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.tabs-audience > div > div > p {
+  margin: 0;
+  font-size: 14px; /* source */
+  line-height: 20px; /* source */
+  font-weight: 400; /* inactive default */
+  color: rgb(66 66 66); /* source inactive color */
+  white-space: nowrap;
+}
+
+/* Active audience (first) — filled purple pill */
+.tabs-audience > div:first-child > div {
+  background: var(--asn-accent-purple); /* #cac2e7 */
+}
+
+.tabs-audience > div:first-child > div > p {
+  font-weight: 600; /* source active */
+  color: var(--asn-text); /* #242424 */
+}
+
+/* Trailing "Explore more content" (last) — outlined pill */
+.tabs-audience > div:last-child > div {
+  padding: 5px 12px; /* source explore button */
+  border-color: var(--asn-card-border); /* #d1d1d1 */
+}
+
+.tabs-audience > div:last-child > div > p {
+  font-weight: 600; /* source */
+  color: var(--asn-text); /* #242424 */
+}
+
+/* Hover affordance on non-active pills */
+.tabs-audience > div:not(:first-child) > div:hover {
+  background: rgb(0 0 0 / 4%);
+}

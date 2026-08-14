@@ -1,0 +1,161 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://aiskillsnavigator.microsoft.com/"
+      ],
+      "coverageGaps": [],
+      "description": "AI Skills Navigator landing page. Hero with title, subtitle and four value-proposition pill buttons; an interest/audience tabbed catalog with multiple horizontally-scrolling course carousels (each carousel has a heading, description and cards with image, duration, date, title and content-type badge); a 'Train smart...' credentials section with three cards; and a closing quote/callout section with an illustration.",
+      "blocks": [
+        {
+          "name": "hero-skilling",
+          "instances": [
+            "div.___1ptpwvl:has(h1.fui-LargeTitle)"
+          ]
+        },
+        {
+          "name": "cards-pills",
+          "instances": [
+            "div.___te5d3i0"
+          ]
+        },
+        {
+          "name": "tabs-audience",
+          "instances": [
+            "div.fui-TabList"
+          ]
+        },
+        {
+          "name": "cards-course",
+          "instances": [
+            "div.fui-Carousel"
+          ]
+        },
+        {
+          "name": "cards-credential",
+          "instances": [
+            "div.___c1fvi20"
+          ]
+        },
+        {
+          "name": "columns-quote",
+          "instances": [
+            "div.___xl246q0:has(#skilling-playlist-heading)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero",
+          "selector": [
+            "div.___1ptpwvl:has(h1.fui-LargeTitle)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-skilling",
+            "cards-pills"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Catalog intro and audience selector",
+          "selector": [
+            "div.___8n1h8p0"
+          ],
+          "style": null,
+          "blocks": [
+            "tabs-audience"
+          ],
+          "defaultContent": [
+            "h2.fui-Title2"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "Course carousels",
+          "selector": [
+            "div.___8n1h8p0"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-course"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-6",
+          "name": "Credentials",
+          "selector": [
+            "div:has(> #train-with-the-best-heading)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-credential"
+          ],
+          "defaultContent": [
+            "#train-with-the-best-heading"
+          ]
+        },
+        {
+          "id": "section-7",
+          "name": "Closing quote callout",
+          "selector": [
+            "div.___xl246q0:has(#skilling-playlist-heading)"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-quote"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "faq",
+      "urls": [
+        "https://aiskillsnavigator.microsoft.com/faq"
+      ],
+      "coverageGaps": [],
+      "description": "Frequently Asked Questions page. H1 heading followed by expandable accordion groups (General Information, Access and profile management) with question/answer pairs, and a sign-in / return-to-home call to action.",
+      "blocks": [
+        {
+          "name": "faq",
+          "instances": [
+            "div.fui-Accordion"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "FAQ",
+          "selector": [
+            "main"
+          ],
+          "style": null,
+          "blocks": [
+            "faq"
+          ],
+          "defaultContent": [
+            "main h1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "termsofuse",
+      "urls": [
+        "https://aiskillsnavigator.microsoft.com/termsofuse"
+      ],
+      "coverageGaps": [],
+      "description": "Terms of Use legal page. H1 heading followed by rich-text paragraphs with inline links. Pure default content, no blocks.",
+      "blocks": []
+    }
+  ]
+}

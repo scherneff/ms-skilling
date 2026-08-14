@@ -1,0 +1,38 @@
+{
+  "variantName": "columns-quote",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "quote-callout",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "quote/heading column + illustration column"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "quote/callout sections paired with an illustration",
+      "two-column text + image callouts"
+    ],
+    "notSuitableFor": [
+      "repeating item grids",
+      "tabbed content"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Two-column closing callout: large quote/heading beside a decorative illustration."
+}

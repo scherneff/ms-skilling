@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-skilling",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "landing-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "tagline + h1 + subtitle + optional background image"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "landing/home page top banners",
+      "gradient or image hero banners with headline + subheadline"
+    ],
+    "notSuitableFor": [
+      "mid-page callouts",
+      "dense content sections"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Landing hero banner: H1 title + subtitle over a designed gradient/image background; supports light/dark image pair."
+}

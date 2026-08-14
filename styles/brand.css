@@ -1,0 +1,67 @@
+/*
+ * AI Skills Navigator brand tokens
+ * Extracted from https://aiskillsnavigator.microsoft.com/ (Fluent UI / Segoe UI system).
+ * These tokens are consumed by the migrated homepage block variants
+ * (hero-skilling, cards-pills, tabs-audience, cards-course, cards-credential, columns-quote).
+ */
+
+:root {
+  /* Typography — Microsoft Fluent system font stack (no web font required) */
+  --asn-font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, blinkmacsystemfont, roboto, "Helvetica Neue", sans-serif;
+
+  /* Heading sizes (desktop) */
+  --asn-heading-xxl: 40px; /* h1 hero */
+  --asn-heading-xl: 28px;  /* h2 section */
+  --asn-heading-l: 20px;   /* h3 card title */
+
+  /* Colors */
+  --asn-background: #fff;
+  --asn-text: #242424;
+  --asn-text-muted: #616161;
+  --asn-link: #115ea3;
+  --asn-link-hover: #0f548c;
+  --asn-accent-purple: #cac2e7;
+  --asn-accent-purple-strong: #b4a7dd;
+  --asn-card-bg: #fff;
+  --asn-card-border: #d1d1d1;
+  --asn-badge-bg: #f5f5f5;
+
+  /* Shape & spacing */
+  --asn-card-radius: 12px;
+  --asn-pill-radius: 999px;
+  --asn-content-max-width: 1280px;
+}
+
+/*
+ * Page-level look for AI Skills Navigator pages only.
+ * Scoped with :has() to the migrated homepage (contains the hero-skilling block),
+ * so the shared demo pages keep their own theme untouched.
+ */
+body:has(.hero-skilling) {
+  background-color: var(--asn-background);
+  font-family: var(--asn-font-family);
+  color: var(--asn-text);
+
+  /* Remap the global heading/body font vars to the Fluent (Segoe UI) stack so
+     default-content headings (h1-h6) on ASN pages don't inherit the shared
+     serif theme. Scoped to ASN pages only. */
+  --heading-font-family: var(--asn-font-family);
+  --body-font-family: var(--asn-font-family);
+}
+
+body:has(.hero-skilling) h1,
+body:has(.hero-skilling) h2,
+body:has(.hero-skilling) h3,
+body:has(.hero-skilling) h4,
+body:has(.hero-skilling) h5,
+body:has(.hero-skilling) h6 {
+  font-family: var(--asn-font-family);
+  color: var(--asn-text);
+}
+
+/* The source has no decorative accent bar under section headings; suppress the
+   shared theme's h2::after brand bar on ASN pages. */
+body:has(.hero-skilling) h2::after {
+  content: none;
+}
+

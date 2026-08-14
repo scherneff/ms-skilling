@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-course",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-14T15:31:39.209259Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "course-carousel",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + duration + date + title + content-type badge + difficulty level"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "course/learning catalogs",
+      "horizontally scrollable card rails",
+      "content collections with metadata badges"
+    ],
+    "notSuitableFor": [
+      "simple text-only cards",
+      "hero banners",
+      "side-by-side layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-14T15:31:39.209259Z"
+  },
+  "notes": "Rich course card rail: thumbnail, duration, publish date, H3 title, content-type badge, difficulty."
+}

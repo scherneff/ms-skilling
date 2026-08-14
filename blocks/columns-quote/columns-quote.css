@@ -1,0 +1,62 @@
+/* columns-quote — closing callout: large quote (left) + illustration (right).
+   Values extracted from source computed styles:
+   div.___xl246q0:has(#skilling-playlist-heading) at viewport 1440. */
+
+/* Mobile-first: stack quote above illustration */
+.columns-quote > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl, 32px);
+}
+
+/* Quote heading — Segoe UI, not the global serif heading font */
+.columns-quote h2 {
+  margin: 0;
+  font-family: var(--asn-font-family);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: normal;
+  color: var(--asn-text);
+  text-align: center;
+}
+
+/* Illustration — flat PNG, no radius (source border-radius: 0) */
+.columns-quote .columns-quote-img-col {
+  display: flex;
+  justify-content: center;
+}
+
+.columns-quote img {
+  display: block;
+  width: 459px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+@media (width >= 900px) {
+  .columns-quote > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 42px;
+  }
+
+  .columns-quote > div > div:first-child {
+    flex: 0 1 auto;
+    max-width: 360px;
+  }
+
+  .columns-quote h2 {
+    font-size: 28px;
+    line-height: 36px;
+    text-align: left;
+  }
+
+  .columns-quote .columns-quote-img-col {
+    flex: 0 0 auto;
+  }
+}

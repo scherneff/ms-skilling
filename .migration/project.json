@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "ms-skilling": {
+      "previewOrg": "scherneff",
+      "previewSite": "ms-skilling",
+      "contentHostUrl": "https://content.da.live/scherneff/ms-skilling/",
+      "libraryUrl": "https://main--ms-skilling--scherneff.aem.page/docs/library/blocks.json"
+    }
+  }
+}
