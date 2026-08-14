@@ -325,7 +325,7 @@ async function loadEager(doc) {
 
   // Consent stub — wire to real CMP later; true for demo
   const isConsentGiven = true;
-  const personalizationEnabled = !!getMetadata('target') && isConsentGiven;
+  personalizationEnabled = !!getMetadata('target') && isConsentGiven;
 
   const martechLoadedPromise = !IS_EDITOR && initMartech(
     {
@@ -407,7 +407,10 @@ async function loadLazy(doc) {
   if (hash && element) element.scrollIntoView();
 
   loadFooter(footerEl);
-  if (!IS_EDITOR) await martechLazy();
+  // On personalized pages, run martechLazy now (offers must apply as early as
+  // possible to avoid flicker). On non-personalized pages, defer it to the
+  // delayed phase (see loadDelayed) so analytics never blocks the critical path.
+  if (!IS_EDITOR && personalizationEnabled) await martechLazy();
 
   /* Scroll reveal: sections below the viewport animate in as they enter */
   if (main && 'IntersectionObserver' in window) {
@@ -496,9 +499,21 @@ const DA_PREVIEW = new URL(window.location.href).searchParams.get('dapreview');
 // and the Target-injected-block observer can't fight UE/quick-edit DOM changes.
 const IS_EDITOR = IS_QUICK_EDIT || isUE() || DA_PREVIEW;
 
+// Set in loadEager. When a page has no Target/personalization, the martech
+// analytics work (loading alloy + firing the page-view) does not need to block
+// the lazy/critical path — it is deferred to the delayed phase instead, which
+// keeps analytics intact while cutting main-thread blocking on content pages.
+let personalizationEnabled = false;
+
 function loadDelayed() {
   window.setTimeout(() => {
-    if (!IS_EDITOR) martechDelayed();
+    if (!IS_EDITOR) {
+      // On personalized pages martechLazy already ran in the lazy phase; here we
+      // only need the Launch containers. On non-personalized pages, run the
+      // deferred analytics/page-view work now (off the critical path).
+      if (!personalizationEnabled) martechLazy();
+      martechDelayed();
+    }
     import('./delayed.js');
   }, 3000);
 }
