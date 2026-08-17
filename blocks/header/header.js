@@ -346,7 +346,20 @@ async function initAuth(nav, tools) {
 
   let mobileLink = nav.querySelector('.nav-auth-mobile-item a');
   if (!mobileLink) {
-    const mobileList = nav.querySelector('.nav-sections .default-content-wrapper > ul');
+    let mobileList = nav.querySelector('.nav-sections .default-content-wrapper > ul');
+    if (!mobileList) {
+      const sectionsEl = nav.querySelector('.nav-sections');
+      if (sectionsEl) {
+        let wrapper = sectionsEl.querySelector('.default-content-wrapper');
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.className = 'default-content-wrapper';
+          sectionsEl.append(wrapper);
+        }
+        mobileList = document.createElement('ul');
+        wrapper.append(mobileList);
+      }
+    }
     if (mobileList) {
       const li = document.createElement('li');
       li.className = 'nav-auth-mobile-item';
@@ -541,13 +554,24 @@ export default async function decorate(block) {
 
   ['brand', 'sections', 'tools'].forEach((c, i) => nav.children[i]?.classList.add(`nav-${c}`));
 
-  const tools = nav.querySelector('.nav-tools');
-  if (tools && nav.children.length > 3) {
-    [...nav.children].slice(3).forEach((extra) => {
-      while (extra.firstElementChild) tools.append(extra.firstElementChild);
-      extra.remove();
-    });
+  // Author content may omit or lose (e.g. via a content-editor round-trip) the sections/tools
+  // placeholders; recreate them so the sign-in control always has somewhere to render.
+  const extras = [...nav.children].slice(3);
+  let tools = nav.querySelector('.nav-tools');
+  if (!tools) {
+    tools = document.createElement('div');
+    tools.className = 'section nav-tools';
+    nav.append(tools);
   }
+  if (!nav.querySelector('.nav-sections')) {
+    const sectionsEl = document.createElement('div');
+    sectionsEl.className = 'section nav-sections';
+    nav.insertBefore(sectionsEl, tools);
+  }
+  extras.forEach((extra) => {
+    while (extra.firstElementChild) tools.append(extra.firstElementChild);
+    extra.remove();
+  });
 
   nav.querySelector('.nav-brand .button')?.classList.remove('button');
   nav.querySelector('.nav-brand .button-container')?.classList.remove('button-container');
