@@ -207,6 +207,7 @@ header nav .nav-brand a:any-link:focus-visible {
 header nav .nav-brand .icon.icon-logo {
     position: relative;
     top: 5px;
+    margin-right: var(--space-xs);
   }
 
 header nav .nav-brand :is(img, svg) {
