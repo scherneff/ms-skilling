@@ -6,8 +6,8 @@ const AUTH_PATHS = {
 };
 
 const AUTH_LABELS = {
-  login: 'Login',
-  logout: 'Logout',
+  login: 'Sign in',
+  logout: 'Sign out',
 };
 
 function authUrl(path) {

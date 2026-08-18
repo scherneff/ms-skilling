@@ -185,17 +185,18 @@ header .nav-brand {
   justify-content: center;
   justify-self: stretch;
   min-width: 0;
-  font-family: var(--font-family-serif);
+  font-family: var(--asn-font-family, var(--font-family-serif));
   font-size: var(--nav-brand-size);
-  font-weight: var(--nav-brand-weight);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.5px;
-  color: light-dark(var(--color-rust), var(--color-rust-bright));
+  letter-spacing: normal;
+  color: light-dark(var(--asn-text, var(--color-rust)), var(--color-rust-bright));
 }
 
 header nav .nav-brand a:any-link {
   display: inline-flex;
   align-items: center;
+  text-decoration: none;
   transition: opacity 0.18s ease;
 }
 
@@ -547,10 +548,24 @@ header nav .nav-tools a.button:any-link:not(.nav-tool) {
 }
 
 header nav .nav-tools a.button.nav-auth-link:any-link {
-  padding: 10px 14px;
+  padding: 10px 20px;
   min-height: 36px;
   line-height: 1;
   white-space: nowrap;
+  border: 0;
+  border-radius: var(--asn-pill-radius, 999px);
+  background: var(--asn-signin-bg, #6c5898);
+  color: #fff;
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+header nav .nav-tools a.button.nav-auth-link:any-link:hover,
+header nav .nav-tools a.button.nav-auth-link:any-link:focus-visible {
+  background: var(--asn-signin-bg-hover, #5c4b81);
+  color: #fff;
 }
 
 header nav .nav-auth-link .nav-auth-info {
@@ -1293,15 +1308,15 @@ header nav .nav-tools .nav-language-menu a:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1.5px solid var(--color-rust);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--color-rust);
-    padding: 12px 24px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    border: 0;
+    border-radius: var(--asn-pill-radius, 999px);
+    background: var(--asn-signin-bg, #6c5898);
+    color: #fff;
+    padding: 12px 28px;
+    font-size: var(--body-font-size-s);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
     line-height: 1;
     min-width: 120px;
     text-decoration: none;
@@ -1309,8 +1324,8 @@ header nav .nav-tools .nav-language-menu a:focus-visible {
 
   header nav .nav-sections .default-content-wrapper > ul > li.nav-auth-mobile-item > p > a.button.nav-auth-mobile:any-link:hover,
   header nav .nav-sections .default-content-wrapper > ul > li.nav-auth-mobile-item > p > a.button.nav-auth-mobile:any-link:focus-visible {
-    background: var(--color-rust);
-    color: var(--color-light);
+    background: var(--asn-signin-bg-hover, #5c4b81);
+    color: #fff;
     transform: none;
     box-shadow: none;
     text-decoration: none;
