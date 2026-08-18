@@ -7,8 +7,7 @@ header {
   --header-drop-border: transparent;
 
   /* typography: brand (strongest) > primary nav > dropdown headings > dropdown items */
-  --nav-brand-size: 1.7rem;
-  --nav-brand-weight: 700;
+  --nav-brand-size: 1.25rem;
   --nav-primary-size: 0.8rem;
   --nav-primary-weight: 700;
   --nav-heading-size: var(--body-font-size-s);
@@ -857,10 +856,10 @@ header nav .nav-tools .nav-language-menu a:focus-visible {
     --nav-padding: var(--space-xl);
   }
 
-  /* brand: left, no shrink */
+  /* brand: left, no shrink, sized to its own content */
   header .nav-brand {
     flex: 0 0 auto;
-    flex-basis: 150px;
+    white-space: nowrap;
   }
 
   /* sections: nav items flow from logo, horizontal nav with dropdowns */
