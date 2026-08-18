@@ -4,6 +4,25 @@
    height 56px, fully rounded (radius 48px), warm border #d7cfc5, white fill,
    dark label (#242424, Segoe UI). */
 
+/* When cards-pills follows hero-skilling in the same section, it renders on
+   top of the hero artwork rather than in a separate band below it — add the
+   breathing room the hero would otherwise have provided on its own. */
+.hero-skilling-container .cards-pills {
+  padding-bottom: 32px;
+}
+
+@media (width >= 600px) {
+  .hero-skilling-container .cards-pills {
+    padding-bottom: 40px;
+  }
+}
+
+@media (width >= 900px) {
+  .hero-skilling-container .cards-pills {
+    padding-bottom: 48px;
+  }
+}
+
 .cards-pills > ul {
   list-style: none;
   margin: 0;

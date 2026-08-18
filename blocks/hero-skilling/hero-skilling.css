@@ -11,17 +11,11 @@
   padding: 0;
 }
 
-/* Banner band */
-.hero-skilling {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  box-sizing: border-box;
-  min-height: 240px;
-  margin: 0;
-  padding: 40px 20px;
+/* The banner artwork lives on the shared section so any block that follows
+   the hero within the same section (e.g. cards-pills) renders on top of it
+   instead of below it in a separate white band — matches the source, where
+   the value-prop pills sit inside the hero image. */
+.hero-skilling-container {
   background-color: rgb(241 236 229); /* warm parchment behind swirl */
 
   /* Optimized, committed banner (webp with jpg fallback). Original source PNG
@@ -33,6 +27,18 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
+}
+
+/* Banner band */
+.hero-skilling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 40px 20px 20px;
   color: var(--asn-text, #242424);
   text-align: center;
 }
@@ -79,8 +85,7 @@
 @media (width >= 600px) {
   .hero-skilling {
     gap: 24px;
-    padding: 48px 24px;
-    min-height: 280px;
+    padding: 48px 24px 24px;
   }
 
   .hero-skilling h1 {
@@ -96,8 +101,7 @@
 @media (width >= 900px) {
   .hero-skilling {
     gap: 28px;
-    padding: 56px 28px;
-    min-height: 333px;
+    padding: 56px 28px 28px;
   }
 
   .hero-skilling .hero-skilling-text,
