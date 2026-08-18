@@ -8,6 +8,8 @@
    top of the hero artwork rather than in a separate band below it — add the
    breathing room the hero would otherwise have provided on its own. */
 .hero-skilling-container .cards-pills {
+  position: relative;
+  z-index: 1;
   padding-bottom: 32px;
 }
 

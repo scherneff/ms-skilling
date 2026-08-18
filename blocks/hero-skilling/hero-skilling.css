@@ -14,12 +14,16 @@
 /* The banner artwork lives on the shared section so any block that follows
    the hero within the same section (e.g. cards-pills) renders on top of it
    instead of below it in a separate white band — matches the source, where
-   the value-prop pills sit inside the hero image. */
-.hero-skilling-container {
-  background-color: rgb(241 236 229); /* warm parchment behind swirl */
+   the value-prop pills sit inside the hero image.
 
-  /* Optimized, committed banner (webp with jpg fallback). Original source PNG
-     was 2.5 MB / 3994px; this is resized to 1920px and re-encoded to ~16 KB. */
+   The image itself is author-swappable: hero-skilling.js promotes the first
+   picture authored in the hero-skilling block up to this section as
+   .hero-skilling-bg. This background-color/image pair is only a fallback for
+   when no image is authored (or before JS runs). */
+.hero-skilling-container {
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(241 236 229); /* warm parchment behind swirl */
   background-image: image-set(
     url('banner.webp') type('image/webp'),
     url('banner.jpg') type('image/jpeg')
@@ -27,6 +31,26 @@
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
+}
+
+/* Authored banner image, promoted to the section and pinned full-bleed behind
+   the hero text + any following block (e.g. cards-pills). */
+.hero-skilling-container > picture.hero-skilling-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-skilling-container > picture.hero-skilling-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Keep the hero text above the background image layer. */
+.hero-skilling-container > .hero-skilling-wrapper {
+  position: relative;
+  z-index: 1;
 }
 
 /* Banner band */
