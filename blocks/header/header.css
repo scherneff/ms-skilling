@@ -181,7 +181,7 @@ header .nav-brand {
   grid-area: brand;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   justify-self: stretch;
   min-width: 0;
   font-family: var(--asn-font-family, var(--font-family-serif));
@@ -209,6 +209,14 @@ header nav .nav-brand .icon.icon-logo {
     top: 5px;
     margin-right: var(--space-xs);
   }
+
+/* Divider between the logo and the brand text, matching the source site */
+header nav .nav-brand-divider {
+  margin-right: var(--space-xs);
+  color: currentcolor;
+  opacity: 0.5;
+  font-weight: 400;
+}
 
 header nav .nav-brand :is(img, svg) {
   width: min(200px, 42vw);

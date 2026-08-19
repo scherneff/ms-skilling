@@ -576,6 +576,16 @@ export default async function decorate(block) {
   nav.querySelector('.nav-brand .button')?.classList.remove('button');
   nav.querySelector('.nav-brand .button-container')?.classList.remove('button-container');
 
+  // Decorative divider between the logo and brand text, matching the source site
+  const brandIcon = nav.querySelector('.nav-brand .icon-logo');
+  if (brandIcon && !brandIcon.nextElementSibling?.classList.contains('nav-brand-divider')) {
+    const divider = document.createElement('span');
+    divider.className = 'nav-brand-divider';
+    divider.setAttribute('aria-hidden', 'true');
+    divider.textContent = '|';
+    brandIcon.after(divider);
+  }
+
   const sections = nav.querySelector('.nav-sections');
   sections?.querySelectorAll(NAV_ITEMS).forEach((li) => {
     if (li.querySelector('ul')) {
