@@ -138,44 +138,46 @@ function buildBlogPreview(imageDiv, link) {
 }
 
 /**
- * Authors tag a card for filtering with a trailing paragraph like
- * "Audience: Executive, IT professional". Extract it into a data attribute
- * for filtering, and render it as its own badge (same pill treatment as the
- * content-type badge) with the "Audience:" label stripped, rather than
- * hiding it.
+ * Authors tag a card with a type badge paragraph (e.g. "Module · Beginner",
+ * "Video") and, optionally, an audience paragraph like "Audience: Executive,
+ * IT professional". Extract both into data attributes for filtering, and
+ * render them as a row of individual badge pills -- type first, then one
+ * pill per audience -- pinned to the bottom of the card.
  * @param {Element} li card list item
  */
-function extractAudienceTags(li) {
-  const tagP = [...li.querySelectorAll('p')].find((p) => AUDIENCE_LABEL_RE.test(p.textContent.trim()));
-  if (!tagP) return;
-
-  const labels = tagP.textContent
-    .replace(AUDIENCE_LABEL_RE, '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
-  if (!labels.length) { tagP.remove(); return; }
-
-  li.dataset.audiences = labels.map(toClassName).join(',');
-  tagP.textContent = labels.join(', ');
-  tagP.classList.add('cards-course-card-audience');
-}
-
-/**
- * Authors tag a card's format with the badge paragraph rendered in the card
- * body (e.g. "Module · Beginner", "Video"). Extract just the type portion
- * (before the " · " difficulty suffix, if any) into a data attribute for
- * filtering; the badge itself stays visible on the card.
- * @param {Element} li card list item
- */
-function extractContentType(li) {
+function decorateBadges(li) {
   const body = li.querySelector('.cards-course-card-body');
-  const typeP = [...(body?.querySelectorAll('p') || [])]
-    .find((p) => !AUDIENCE_LABEL_RE.test(p.textContent.trim()));
-  if (!typeP) return;
+  if (!body) return;
 
-  const [type] = typeP.textContent.trim().split(CONTENT_TYPE_SEPARATOR_RE);
-  if (type) li.dataset.contentType = toClassName(type);
+  const paragraphs = [...body.querySelectorAll('p')];
+  const audienceP = paragraphs.find((p) => AUDIENCE_LABEL_RE.test(p.textContent.trim()));
+  const typeP = paragraphs.find((p) => p !== audienceP);
+
+  const labels = [];
+
+  if (typeP) {
+    const [type] = typeP.textContent.trim().split(CONTENT_TYPE_SEPARATOR_RE);
+    if (type) li.dataset.contentType = toClassName(type);
+    labels.push(typeP.textContent.trim());
+    typeP.remove();
+  }
+
+  if (audienceP) {
+    const audiences = audienceP.textContent
+      .replace(AUDIENCE_LABEL_RE, '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (audiences.length) li.dataset.audiences = audiences.map(toClassName).join(',');
+    labels.push(...audiences);
+    audienceP.remove();
+  }
+
+  if (!labels.length) return;
+
+  const badges = createTag('div', { class: 'cards-course-card-badges' });
+  labels.forEach((label) => badges.append(createTag('p', { class: 'cards-course-card-badge' }, label)));
+  body.append(badges);
 }
 
 /**
@@ -348,8 +350,7 @@ function decorateDefault(block) {
       });
     }
 
-    extractContentType(li);
-    extractAudienceTags(li);
+    decorateBadges(li);
 
     if (!isUE()) {
       const imageDiv = li.querySelector('.cards-course-card-image');

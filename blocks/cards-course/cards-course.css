@@ -151,7 +151,7 @@
 }
 
 .cards-course .cards-course-card-body :is(h2, h3, h4) {
-  margin: 0;
+  margin: 0 0 16px;
   font-family: var(--asn-font-family);
   font-size: var(--asn-heading-l); /* 20px */
   font-weight: 600;
@@ -166,13 +166,20 @@
   overflow: hidden;
 }
 
-/* Content-type and audience text rendered as subtle badge pills (default
-   variant only; bento/links style their paragraphs differently -- see
-   their own rules below). The badge group as a whole is pushed to the
-   bottom of the card by a rule at the end of this file. */
-.cards-course .cards-course-card-body p {
-  align-self: flex-start;
-  margin: 16px 0 0;
+/* Content-type and audience badges (default variant only -- see
+   decorateBadges in cards-course.js), laid out side by side and wrapped
+   as needed. margin-top: auto pushes the whole row to the bottom of the
+   card so badges align across a row regardless of title length; the
+   title's own margin-bottom above guarantees at least that much of a gap. */
+.cards-course .cards-course-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.cards-course .cards-course-card-badge {
+  margin: 0;
   padding: 3px 6px;
   background: #ebebeb;
   border-radius: 8px;
@@ -181,6 +188,7 @@
   font-weight: 400;
   line-height: 16px;
   color: #424242;
+  white-space: nowrap;
 }
 
 /* Links variant empty state */
@@ -336,14 +344,4 @@
   .cards-course.bento .cards-course-card-featured .cards-course-card-image {
     max-height: 300px;
   }
-}
-
-/* Default variant only: push the badge group (type, then audience below it)
-   to the bottom of the card so badges align across a row regardless of how
-   many lines the title above them takes. The :not(.bento, .links) scoping
-   means this never actually overlaps with the bento rules above, despite
-   stylelint's specificity-order heuristic flagging it. */
-/* stylelint-disable-next-line no-descending-specificity */
-.cards-course:not(.bento, .links) .cards-course-card-body p:first-of-type {
-  margin-top: auto;
 }
