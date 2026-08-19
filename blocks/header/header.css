@@ -186,7 +186,7 @@ header .nav-brand {
   min-width: 0;
   font-family: var(--asn-font-family, var(--font-family-serif));
   font-size: var(--nav-brand-size);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: normal;
   color: light-dark(var(--asn-text, var(--color-rust)), var(--color-rust-bright));
