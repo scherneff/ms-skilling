@@ -44,12 +44,28 @@ function buildVideoThumb(imageDiv, title) {
   if (!videoId) return;
 
   imageDiv.classList.add('cards-course-card-video');
+
+  // maxresdefault is the only YouTube thumbnail rendition that's actually
+  // 16:9 — the rest (hqdefault, etc.) are 4:3 with black letterboxing baked
+  // into the image. Not every video has a maxresdefault though: YouTube
+  // serves a 120x90 grey placeholder (HTTP 200, not a real 404) instead of
+  // erroring, so detect that and fall back to the letterboxed hqdefault,
+  // cropping the bars out with a scale (only in that fallback case, so the
+  // common 16:9 case isn't unnecessarily zoomed).
+  const thumb = createTag('img', {
+    src: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+    alt: '',
+    loading: 'lazy',
+  });
+  thumb.addEventListener('load', () => {
+    if (thumb.naturalWidth <= 120) {
+      imageDiv.classList.add('cards-course-card-video-letterboxed');
+      thumb.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    }
+  }, { once: true });
+
   imageDiv.replaceChildren(
-    createTag('img', {
-      src: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-      alt: '',
-      loading: 'lazy',
-    }),
+    thumb,
     createTag('button', {
       type: 'button',
       class: 'cards-course-card-play',

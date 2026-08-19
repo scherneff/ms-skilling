@@ -74,6 +74,13 @@
   position: relative;
 }
 
+/* Fallback thumbnail (hqdefault) has black letterboxing baked into the 4:3
+   image for 16:9 source video; scale it up to crop the bars out. Only
+   applied when maxresdefault (genuinely 16:9) wasn't available. */
+.cards-course .cards-course-card-image.cards-course-card-video-letterboxed img {
+  transform: scale(1.15);
+}
+
 .cards-course .cards-course-card-image iframe {
   display: block;
   width: 100%;
