@@ -1,4 +1,4 @@
-import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
+import { createOptimizedPicture, decorateIcons, toClassName } from '../../scripts/aem.js';
 import {
   createTag,
   fetchQueryIndexAll,
@@ -15,6 +15,7 @@ const AUDIENCE_LABEL_RE = /^audience:/i;
 // Content-type badge text is authored as e.g. "Module · Beginner" or plain
 // "Video" — only the part before the separator (if any) is the type.
 const CONTENT_TYPE_SEPARATOR_RE = /\s*·\s*/;
+const LINKEDIN_LABEL_RE = /linkedin/i;
 const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
 // Any other http(s) link in the image column is treated as a blog/article URL
 // to preview (see buildBlogPreview).
@@ -138,6 +139,20 @@ function buildBlogPreview(imageDiv, link) {
 }
 
 /**
+ * Build a single badge pill; the LinkedIn Learning badge gets its logo
+ * alongside the label.
+ * @param {string} label badge text
+ * @returns {Element} the badge pill
+ */
+function buildBadge(label) {
+  const isLinkedIn = LINKEDIN_LABEL_RE.test(label);
+  const badge = createTag('p', { class: 'cards-course-card-badge' });
+  if (isLinkedIn) badge.append(createTag('span', { class: 'icon icon-linkedin' }));
+  badge.append(label);
+  return badge;
+}
+
+/**
  * Authors tag a card with a type badge paragraph (e.g. "Module · Beginner",
  * "Video") and, optionally, an audience paragraph like "Audience: Executive,
  * IT professional". Extract both into data attributes for filtering, and
@@ -176,8 +191,9 @@ function decorateBadges(li) {
   if (!labels.length) return;
 
   const badges = createTag('div', { class: 'cards-course-card-badges' });
-  labels.forEach((label) => badges.append(createTag('p', { class: 'cards-course-card-badge' }, label)));
+  labels.forEach((label) => badges.append(buildBadge(label)));
   body.append(badges);
+  decorateIcons(badges);
 }
 
 /**

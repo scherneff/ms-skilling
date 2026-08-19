@@ -179,6 +179,9 @@
 }
 
 .cards-course .cards-course-card-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin: 0;
   padding: 3px 6px;
   background: #ebebeb;
@@ -189,6 +192,12 @@
   line-height: 16px;
   color: #424242;
   white-space: nowrap;
+}
+
+/* LinkedIn Learning badge logo */
+.cards-course .cards-course-card-badge .icon.icon-linkedin {
+  width: 14px;
+  height: 14px;
 }
 
 /* Links variant empty state */
