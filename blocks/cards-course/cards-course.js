@@ -16,9 +16,7 @@ const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
 // to preview (see buildBlogPreview).
 const IMAGE_COLUMN_SELECTOR = 'picture, a[href^="http"]';
 
-// TODO: update after deploying workers/link_preview (see its README):
-// npm run deploy:link-preview, then paste the printed *.workers.dev URL here.
-const LINK_PREVIEW_ENDPOINT = '';
+const LINK_PREVIEW_ENDPOINT = 'https://ms-skilling-link-preview.scherneff.workers.dev';
 
 /**
  * @param {string} href

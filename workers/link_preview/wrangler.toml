@@ -1,7 +1,7 @@
 name = "ms-skilling-link-preview"
 main = "index.js"
 compatibility_date = "2026-08-19"
-account_id = "ac7ee4615628005dc5ba0a22f0aae2a6"
+account_id = "e8b4de1b44bb851a92452b14a127bbe4"
 
 [vars]
 # Origins allowed to call this worker's CORS-enabled endpoint.

@@ -9,7 +9,12 @@
 const MAX_HTML_BYTES = 500 * 1024; // og:* tags live in <head>; no need to read the whole page
 const FETCH_TIMEOUT_MS = 5000;
 const CACHE_TTL_SECONDS = 60 * 60 * 24; // 24h — preview images rarely change
-const USER_AGENT = 'Mozilla/5.0 (compatible; AISkillsNavigatorLinkPreview/1.0)';
+// Some sites block requests that self-identify as bots or come from
+// recognizable datacenter/CDN egress IPs (Cloudflare Workers' among them).
+// A realistic browser UA + headers gets past simple UA-sniffing, though it
+// won't help against IP-reputation or TLS-fingerprint-based blocking.
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+  + '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 function corsHeaders(env, origin) {
   const allowed = (env.ALLOWED_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
@@ -73,7 +78,11 @@ async function fetchPreview(targetUrl) {
   try {
     const response = await fetch(targetUrl, {
       signal: controller.signal,
-      headers: { 'User-Agent': USER_AGENT, Accept: 'text/html' },
+      headers: {
+        'User-Agent': USER_AGENT,
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
     });
     if (!response.ok || !response.body) return null;
     const html = await readLimited(response, MAX_HTML_BYTES);
