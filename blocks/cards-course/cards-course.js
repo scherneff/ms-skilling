@@ -176,8 +176,11 @@ function extractContentType(li) {
 /**
  * Show/hide cards based on the shared audience- and content-type-filter
  * selections (combined with AND). Cards missing either tag always match that
- * dimension. If a combination would hide every card in this rail, show them
- * all instead rather than leaving an empty rail.
+ * dimension. Audience keeps a "don't empty a rail" grace: if the selected
+ * audience matches nothing here, it's ignored rather than hiding every card
+ * (rails are curated per audience, so a gap likely means every card is still
+ * relevant). Content type has no such grace — a rail genuinely having zero
+ * cards of a given type is normal, and the filter should reflect that.
  * @param {Element} block cards-course block
  */
 function setupFiltering(block) {
@@ -188,16 +191,18 @@ function setupFiltering(block) {
   let selectedAudience = null;
   let selectedContentType = null;
 
+  const audienceMatches = (li) => !selectedAudience || !li.dataset.audiences
+    || li.dataset.audiences.split(',').includes(selectedAudience);
+
   const apply = () => {
+    const ignoreAudience = !cards.some(audienceMatches);
     const matches = (li) => {
-      const audienceOk = !selectedAudience || !li.dataset.audiences
-        || li.dataset.audiences.split(',').includes(selectedAudience);
+      const audienceOk = ignoreAudience || audienceMatches(li);
       const typeOk = !selectedContentType || li.dataset.contentType === selectedContentType;
       return audienceOk && typeOk;
     };
-    const anyMatch = cards.some(matches);
     cards.forEach((li) => {
-      li.classList.toggle('cards-course-card-hidden', anyMatch && !matches(li));
+      li.classList.toggle('cards-course-card-hidden', !matches(li));
     });
   };
 
