@@ -7,7 +7,7 @@ header {
   --header-drop-border: transparent;
 
   /* typography: brand (strongest) > primary nav > dropdown headings > dropdown items */
-  --nav-brand-size: 1.25rem;
+  --nav-brand-size: 1rem;
   --nav-primary-size: 0.8rem;
   --nav-primary-weight: 700;
   --nav-heading-size: var(--body-font-size-s);
@@ -205,8 +205,6 @@ header nav .nav-brand a:any-link:focus-visible {
 }
 
 header nav .nav-brand .icon.icon-logo {
-    position: relative;
-    top: 5px;
     margin-right: var(--space-xs);
   }
 
