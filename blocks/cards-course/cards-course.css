@@ -166,8 +166,10 @@
   overflow: hidden;
 }
 
-/* Content-type / difficulty text rendered as a subtle badge pill,
-   pushed to the bottom of the card so badges align across a row */
+/* Content-type and audience text rendered as subtle badge pills (default
+   variant only; bento/links style their paragraphs differently -- see
+   their own rules below). The badge group as a whole is pushed to the
+   bottom of the card by a rule at the end of this file. */
 .cards-course .cards-course-card-body p {
   align-self: flex-start;
   margin: 16px 0 0;
@@ -334,4 +336,14 @@
   .cards-course.bento .cards-course-card-featured .cards-course-card-image {
     max-height: 300px;
   }
+}
+
+/* Default variant only: push the badge group (type, then audience below it)
+   to the bottom of the card so badges align across a row regardless of how
+   many lines the title above them takes. The :not(.bento, .links) scoping
+   means this never actually overlaps with the bento rules above, despite
+   stylelint's specificity-order heuristic flagging it. */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-course:not(.bento, .links) .cards-course-card-body p:first-of-type {
+  margin-top: auto;
 }

@@ -140,20 +140,25 @@ function buildBlogPreview(imageDiv, link) {
 /**
  * Authors tag a card for filtering with a trailing paragraph like
  * "Audience: Executive, IT professional". Extract it into a data attribute
- * for filtering and remove it from the visible card.
+ * for filtering, and render it as its own badge (same pill treatment as the
+ * content-type badge) with the "Audience:" label stripped, rather than
+ * hiding it.
  * @param {Element} li card list item
  */
 function extractAudienceTags(li) {
   const tagP = [...li.querySelectorAll('p')].find((p) => AUDIENCE_LABEL_RE.test(p.textContent.trim()));
   if (!tagP) return;
 
-  const audiences = tagP.textContent
+  const labels = tagP.textContent
     .replace(AUDIENCE_LABEL_RE, '')
     .split(',')
-    .map((s) => toClassName(s.trim()))
+    .map((s) => s.trim())
     .filter(Boolean);
-  if (audiences.length) li.dataset.audiences = audiences.join(',');
-  tagP.remove();
+  if (!labels.length) { tagP.remove(); return; }
+
+  li.dataset.audiences = labels.map(toClassName).join(',');
+  tagP.textContent = labels.join(', ');
+  tagP.classList.add('cards-course-card-audience');
 }
 
 /**
