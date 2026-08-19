@@ -1,0 +1,63 @@
+/*
+ * tabs-content-type — content-type filter pills for cards-course rails
+ * (Video, Article, Module, Learning path, Credential, ...). Same visual
+ * pattern as tabs-audience (see its comments) — a wrapping horizontal row of
+ * Fluent-UI style pills, active pill filled light-purple, inactive plain
+ * text. "All types" is the default-active clear-filter pill.
+ *
+ * Decorated DOM: .tabs-content-type > div (row) > div (cell, role="button") > p (label)
+ */
+
+.tabs-content-type {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--asn-text);
+  font-family: var(--asn-font-family);
+}
+
+.tabs-content-type > div {
+  display: flex;
+  margin: 0;
+}
+
+.tabs-content-type > div > div {
+  display: grid;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 32px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.tabs-content-type > div > div > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgb(66 66 66);
+  white-space: nowrap;
+}
+
+.tabs-content-type > div > div.is-active {
+  background: var(--asn-accent-purple);
+}
+
+.tabs-content-type > div > div.is-active > p {
+  font-weight: 600;
+  color: var(--asn-text);
+}
+
+.tabs-content-type > div > div:focus-visible {
+  outline: 2px solid var(--asn-link, #115ea3);
+  outline-offset: 2px;
+}
+
+.tabs-content-type > div > div:not(.is-active):hover {
+  background: rgb(0 0 0 / 4%);
+}

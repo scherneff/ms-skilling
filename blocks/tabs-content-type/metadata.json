@@ -1,0 +1,38 @@
+{
+  "variantName": "tabs-content-type",
+  "baseBlock": "tabs",
+  "version": "1.0.0",
+  "created": "2026-08-19T00:00:00.000000Z",
+  "sourceContext": {
+    "originUrl": "https://aiskillsnavigator.microsoft.com/",
+    "originPage": "AI Skills Navigator homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "content-type-selector",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "content-type tab labels (Video, Article, Module, ...), no per-type content sections"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "content-type/format selectors",
+      "filtering cards-course rails by badge type"
+    ],
+    "notSuitableFor": [
+      "simple two-panel toggles",
+      "accordion-style FAQ"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/index"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-19T00:00:00.000000Z"
+  },
+  "notes": "Content-type filter pill row (same visual pattern as tabs-audience) driving scripts/shared/content-type-filter.js, which cards-course rails subscribe to for show/hide filtering alongside the audience filter."
+}

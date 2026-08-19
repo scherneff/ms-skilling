@@ -8,9 +8,13 @@ import {
   isUE,
 } from '../../scripts/shared.js';
 import { onAudienceChange } from '../../scripts/shared/audience-filter.js';
+import { onContentTypeChange } from '../../scripts/shared/content-type-filter.js';
 import { openModal } from '../modal/modal.js';
 
 const AUDIENCE_LABEL_RE = /^audience:/i;
+// Content-type badge text is authored as e.g. "Module · Beginner" or plain
+// "Video" — only the part before the separator (if any) is the type.
+const CONTENT_TYPE_SEPARATOR_RE = /\s*·\s*/;
 const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
 // Any other http(s) link in the image column is treated as a blog/article URL
 // to preview (see buildBlogPreview).
@@ -153,22 +157,52 @@ function extractAudienceTags(li) {
 }
 
 /**
- * Show/hide cards based on the shared audience-filter selection. Cards with
- * no authored audience tags are always shown. If a selection would hide every
- * card in this rail, show them all instead rather than leaving an empty rail.
+ * Authors tag a card's format with the badge paragraph rendered in the card
+ * body (e.g. "Module · Beginner", "Video"). Extract just the type portion
+ * (before the " · " difficulty suffix, if any) into a data attribute for
+ * filtering; the badge itself stays visible on the card.
+ * @param {Element} li card list item
+ */
+function extractContentType(li) {
+  const body = li.querySelector('.cards-course-card-body');
+  const typeP = [...(body?.querySelectorAll('p') || [])]
+    .find((p) => !AUDIENCE_LABEL_RE.test(p.textContent.trim()));
+  if (!typeP) return;
+
+  const [type] = typeP.textContent.trim().split(CONTENT_TYPE_SEPARATOR_RE);
+  if (type) li.dataset.contentType = toClassName(type);
+}
+
+/**
+ * Show/hide cards based on the shared audience- and content-type-filter
+ * selections (combined with AND). Cards missing either tag always match that
+ * dimension. If a combination would hide every card in this rail, show them
+ * all instead rather than leaving an empty rail.
  * @param {Element} block cards-course block
  */
-function setupAudienceFiltering(block) {
-  const cards = [...block.querySelectorAll('li')].filter((li) => li.dataset.audiences);
+function setupFiltering(block) {
+  const cards = [...block.querySelectorAll('li')]
+    .filter((li) => li.dataset.audiences || li.dataset.contentType);
   if (!cards.length) return;
 
-  onAudienceChange((selected) => {
-    const matches = (li) => !selected || li.dataset.audiences.split(',').includes(selected);
+  let selectedAudience = null;
+  let selectedContentType = null;
+
+  const apply = () => {
+    const matches = (li) => {
+      const audienceOk = !selectedAudience || !li.dataset.audiences
+        || li.dataset.audiences.split(',').includes(selectedAudience);
+      const typeOk = !selectedContentType || li.dataset.contentType === selectedContentType;
+      return audienceOk && typeOk;
+    };
     const anyMatch = cards.some(matches);
     cards.forEach((li) => {
       li.classList.toggle('cards-course-card-hidden', anyMatch && !matches(li));
     });
-  });
+  };
+
+  onAudienceChange((selected) => { selectedAudience = selected; apply(); });
+  onContentTypeChange((selected) => { selectedContentType = selected; apply(); });
 }
 
 function buildLinksCard(article) {
@@ -304,6 +338,7 @@ function decorateDefault(block) {
       });
     }
 
+    extractContentType(li);
     extractAudienceTags(li);
 
     if (!isUE()) {
@@ -367,5 +402,5 @@ export default async function decorate(block) {
   } else {
     decorateDefault(block);
   }
-  setupAudienceFiltering(block);
+  setupFiltering(block);
 }

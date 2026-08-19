@@ -1,5 +1,6 @@
 import { toClassName, loadCSS } from '../../scripts/aem.js';
 import { setSelectedAudience, onAudienceChange } from '../../scripts/shared/audience-filter.js';
+import { decorateFilterPills } from '../../scripts/shared/pill-filter.js';
 
 let tabsStyleLoaded;
 
@@ -154,40 +155,11 @@ function buildTabsFromSections(tabSections) {
  * subscribe to; "Explore more content" clears the filter (shows everything).
  */
 function decorateAudiencePills(block) {
-  const pills = [];
-
-  [...block.children].forEach((row) => {
-    const cell = row.firstElementChild;
-    const label = cell?.querySelector('p');
-    if (!cell || !label) return;
-
-    const text = label.textContent.trim();
-    const isExplore = /explore/i.test(text);
-    const audienceId = isExplore ? null : toClassName(text);
-
-    cell.setAttribute('role', 'button');
-    cell.setAttribute('tabindex', '0');
-    cell.setAttribute('aria-pressed', 'false');
-
-    const activate = () => setSelectedAudience(audienceId);
-    cell.addEventListener('click', activate);
-    cell.addEventListener('keydown', (e) => {
-      if (e.code === 'Enter' || e.code === 'Space') {
-        e.preventDefault();
-        activate();
-      }
-    });
-
-    pills.push({ cell, audienceId, isExplore });
-  });
-
-  onAudienceChange((selected) => {
-    pills.forEach(({ cell, audienceId, isExplore }) => {
-      const isActive = isExplore ? selected === null : selected === audienceId;
-      cell.classList.toggle('is-active', isActive);
-      cell.setAttribute('aria-pressed', String(isActive));
-    });
-  });
+  decorateFilterPills(
+    block,
+    { setSelected: setSelectedAudience, onChange: onAudienceChange },
+    (text) => /explore/i.test(text),
+  );
 }
 
 export default function decorate(block) {
