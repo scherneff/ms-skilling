@@ -10,6 +10,63 @@ import {
 import { onAudienceChange } from '../../scripts/shared/audience-filter.js';
 
 const AUDIENCE_LABEL_RE = /^audience:/i;
+const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
+
+/**
+ * @param {string} href
+ * @returns {string|null} the YouTube video ID, or null if not parseable
+ */
+function getYoutubeId(href) {
+  try {
+    const url = new URL(href);
+    if (url.hostname.includes('youtu.be')) return url.pathname.slice(1) || null;
+    if (url.hostname.includes('youtube.com')) return url.searchParams.get('v');
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
+/**
+ * Authors can drop a YouTube URL in the image column instead of a picture.
+ * Replace it with a lightweight thumbnail + click-to-play control (an eager
+ * iframe per card would be heavy for a rail with several video cards).
+ * @param {Element} imageDiv the .cards-course-card-image column
+ * @param {string} title card title, used for the play button's label
+ */
+function buildVideoThumb(imageDiv, title) {
+  const link = imageDiv.querySelector(YOUTUBE_LINK_SELECTOR);
+  if (!link) return;
+
+  const videoId = getYoutubeId(link.href);
+  if (!videoId) return;
+
+  imageDiv.classList.add('cards-course-card-video');
+  imageDiv.replaceChildren(
+    createTag('img', {
+      src: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      alt: '',
+      loading: 'lazy',
+    }),
+    createTag('button', {
+      type: 'button',
+      class: 'cards-course-card-play',
+      'aria-label': title ? `Play video: ${title}` : 'Play video',
+    }),
+  );
+
+  imageDiv.querySelector('.cards-course-card-play').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    imageDiv.replaceChildren(createTag('iframe', {
+      src: `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1`,
+      title: title ? `${title} — video` : 'YouTube video player',
+      allow: 'autoplay; encrypted-media; picture-in-picture',
+      allowfullscreen: '',
+      loading: 'lazy',
+    }));
+  }, { once: true });
+}
 
 /**
  * Authors tag a card for filtering with a trailing paragraph like
@@ -162,11 +219,13 @@ function decorateDefault(block) {
 
     const content = li.firstElementChild;
     if (content?.children?.length > 1) {
-      const imageEl = [...content.children].find((el) => el.querySelector('picture'));
+      const imageEl = [...content.children]
+        .find((el) => el.querySelector(`picture, ${YOUTUBE_LINK_SELECTOR}`));
       if (imageEl) {
         const picture = imageEl.querySelector('picture');
         const imageDiv = createTag('div', { class: 'cards-course-card-image' });
         if (picture) imageDiv.append(picture);
+        else imageDiv.append(...imageEl.childNodes);
         const bodyDiv = createTag('div', { class: 'cards-course-card-body' });
         [...content.children].forEach((el) => { if (el !== imageEl) bodyDiv.append(el); });
         li.replaceChildren(imageDiv, bodyDiv);
@@ -175,16 +234,21 @@ function decorateDefault(block) {
       }
     } else {
       [...li.children].forEach((div) => {
-        div.className = (div.children.length === 1 && div.querySelector('picture'))
+        div.className = (div.children.length === 1 && div.querySelector(`picture, ${YOUTUBE_LINK_SELECTOR}`))
           ? 'cards-course-card-image' : 'cards-course-card-body';
       });
     }
 
     extractAudienceTags(li);
 
+    if (!isUE()) {
+      const imageDiv = li.querySelector('.cards-course-card-image');
+      if (imageDiv) buildVideoThumb(imageDiv, li.querySelector('h3')?.textContent.trim());
+    }
+
     const linkEl = li.querySelector('.cards-course-card-image a[href]') || li.querySelector('.cards-course-card-body a[href]');
     if (linkEl) {
-      if (isUE) {
+      if (isUE()) {
         // In UE: use a <div> wrapper so the authored <a> (with its href) is preserved
         const wrapper = createTag('div', { class: 'cards-course-card-link' });
         while (li.firstChild) wrapper.append(li.firstChild);

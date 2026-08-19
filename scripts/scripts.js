@@ -71,6 +71,9 @@ function buildEmbedBlocks(main) {
   youtubeVideos.forEach((anchor) => {
     if (anchor.closest('.embed.block')) return;
     if (anchor.querySelector('.icon')) return;
+    // cards-course renders its own lightweight thumbnail + click-to-play
+    // control for authored video links instead of an eager iframe embed.
+    if (anchor.closest('.cards-course')) return;
 
     let url;
     try {
