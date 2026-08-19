@@ -69,6 +69,14 @@
   object-position: center;
 }
 
+/* Blog/article link preview (see buildBlogPreview in cards-course.js) — the
+   og:image fetched by workers/link_preview reuses the standard image sizing
+   above; .cards-course-card-blog-empty is the gray placeholder box left in
+   place when no preview image could be found for the authored URL. */
+.cards-course .cards-course-card-image.cards-course-card-blog-empty img {
+  display: none;
+}
+
 /* Video thumbnail + click-to-play (see buildVideoThumb in cards-course.js) */
 .cards-course .cards-course-card-image.cards-course-card-video {
   position: relative;

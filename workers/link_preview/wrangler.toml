@@ -1,0 +1,11 @@
+name = "ms-skilling-link-preview"
+main = "index.js"
+compatibility_date = "2026-08-19"
+account_id = "ac7ee4615628005dc5ba0a22f0aae2a6"
+
+[vars]
+# Origins allowed to call this worker's CORS-enabled endpoint.
+ALLOWED_ORIGINS = "https://main--ms-skilling--scherneff.aem.page,https://main--ms-skilling--scherneff.aem.live,http://localhost:3000"
+
+[observability.logs]
+enabled = true

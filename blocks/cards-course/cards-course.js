@@ -12,6 +12,13 @@ import { openModal } from '../modal/modal.js';
 
 const AUDIENCE_LABEL_RE = /^audience:/i;
 const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
+// Any other http(s) link in the image column is treated as a blog/article URL
+// to preview (see buildBlogPreview).
+const IMAGE_COLUMN_SELECTOR = 'picture, a[href^="http"]';
+
+// TODO: update after deploying workers/link_preview (see its README):
+// npm run deploy:link-preview, then paste the printed *.workers.dev URL here.
+const LINK_PREVIEW_ENDPOINT = '';
 
 /**
  * @param {string} href
@@ -84,6 +91,48 @@ function buildVideoThumb(imageDiv, title) {
     });
     openModal(createTag('div', { class: 'modal-video-frame' }, iframe), { video: true });
   });
+}
+
+/**
+ * Authors can drop a blog/article URL in the image column instead of a
+ * picture. Unlike YouTube, there's no predictable image URL to compute from
+ * the link alone — the preview image only exists as an og:image meta tag
+ * inside that page's own HTML, which requires a server-side fetch (the
+ * workers/link_preview worker) since the browser can't read cross-origin
+ * HTML itself. The link (and its href) is left in place so the existing
+ * card-link wrapping below still makes the whole card open the article.
+ * @param {Element} imageDiv the .cards-course-card-image column
+ * @param {Element} link the authored <a href> for the article
+ */
+function buildBlogPreview(imageDiv, link) {
+  if (!LINK_PREVIEW_ENDPOINT) return;
+
+  imageDiv.classList.add('cards-course-card-blog');
+  const img = createTag('img', { alt: '', loading: 'lazy' });
+  link.replaceChildren(img);
+
+  const load = () => {
+    fetch(`${LINK_PREVIEW_ENDPOINT}?url=${encodeURIComponent(link.href)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.image) img.src = data.image;
+        else imageDiv.classList.add('cards-course-card-blog-empty');
+      })
+      .catch(() => imageDiv.classList.add('cards-course-card-blog-empty'));
+  };
+
+  // Defer the fetch until the card is about to be seen — a rail can hold
+  // several of these, and each one is a network round trip to our worker.
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      load();
+    }, { rootMargin: '200px' });
+    observer.observe(imageDiv);
+  } else {
+    load();
+  }
 }
 
 /**
@@ -238,7 +287,7 @@ function decorateDefault(block) {
     const content = li.firstElementChild;
     if (content?.children?.length > 1) {
       const imageEl = [...content.children]
-        .find((el) => el.querySelector(`picture, ${YOUTUBE_LINK_SELECTOR}`));
+        .find((el) => el.querySelector(IMAGE_COLUMN_SELECTOR));
       if (imageEl) {
         const picture = imageEl.querySelector('picture');
         const imageDiv = createTag('div', { class: 'cards-course-card-image' });
@@ -252,7 +301,7 @@ function decorateDefault(block) {
       }
     } else {
       [...li.children].forEach((div) => {
-        div.className = (div.children.length === 1 && div.querySelector(`picture, ${YOUTUBE_LINK_SELECTOR}`))
+        div.className = (div.children.length === 1 && div.querySelector(IMAGE_COLUMN_SELECTOR))
           ? 'cards-course-card-image' : 'cards-course-card-body';
       });
     }
@@ -261,7 +310,12 @@ function decorateDefault(block) {
 
     if (!isUE()) {
       const imageDiv = li.querySelector('.cards-course-card-image');
-      if (imageDiv) buildVideoThumb(imageDiv, li.querySelector('h3')?.textContent.trim());
+      const imageLink = imageDiv?.querySelector('a[href]');
+      if (imageLink && getYoutubeId(imageLink.href)) {
+        buildVideoThumb(imageDiv, li.querySelector('h3')?.textContent.trim());
+      } else if (imageLink) {
+        buildBlogPreview(imageDiv, imageLink);
+      }
     }
 
     const linkEl = li.querySelector('.cards-course-card-image a[href]') || li.querySelector('.cards-course-card-body a[href]');
