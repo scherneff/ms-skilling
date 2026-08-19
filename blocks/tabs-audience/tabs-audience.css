@@ -2,12 +2,13 @@
  * tabs-audience — AI Skills Navigator audience selector.
  * Source: div.fui-TabList on https://aiskillsnavigator.microsoft.com/
  * Renders the authored audience labels as a wrapping horizontal row of
- * Fluent-UI style pills. The active (first) audience is a filled light-purple
- * pill; inactive audiences are plain text; the trailing "Explore more content"
- * label is an outlined pill.
+ * Fluent-UI style pills. Each pill sets the shared audience-filter state
+ * (see scripts/shared/audience-filter.js) that cards-course rails read to
+ * show/hide cards; the active pill is a filled light-purple pill, inactive
+ * ones are plain text, and the trailing "Explore more content" pill (which
+ * clears the filter) is outlined.
  *
- * Decorated DOM (decorate() returns early — no adjacent tab sections):
- *   .tabs-audience > div (row) > div (cell) > p (label)
+ * Decorated DOM: .tabs-audience > div (row) > div (cell, role="button") > p (label)
  * All values extracted from source getComputedStyle.
  */
 
@@ -49,12 +50,12 @@
   white-space: nowrap;
 }
 
-/* Active audience (first) — filled purple pill */
-.tabs-audience > div:first-child > div {
+/* Active audience — filled purple pill */
+.tabs-audience > div > div.is-active {
   background: var(--asn-accent-purple); /* #cac2e7 */
 }
 
-.tabs-audience > div:first-child > div > p {
+.tabs-audience > div > div.is-active > p {
   font-weight: 600; /* source active */
   color: var(--asn-text); /* #242424 */
 }
@@ -70,7 +71,12 @@
   color: var(--asn-text); /* #242424 */
 }
 
+.tabs-audience > div > div:focus-visible {
+  outline: 2px solid var(--asn-link, #115ea3);
+  outline-offset: 2px;
+}
+
 /* Hover affordance on non-active pills */
-.tabs-audience > div:not(:first-child) > div:hover {
+.tabs-audience > div > div:not(.is-active):hover {
   background: rgb(0 0 0 / 4%);
 }

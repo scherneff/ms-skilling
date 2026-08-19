@@ -15,6 +15,11 @@
   gap: var(--space-l);
 }
 
+/* Hidden by the tabs-audience filter (scripts/shared/audience-filter.js) */
+.cards-course > ul > li.cards-course-card-hidden {
+  display: none;
+}
+
 .cards-course > ul > li {
   display: flex;
   flex-direction: column;

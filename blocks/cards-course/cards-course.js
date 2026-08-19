@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
 import {
   createTag,
   fetchQueryIndexAll,
@@ -7,6 +7,47 @@ import {
   resolveArticlesFromIndex,
   isUE,
 } from '../../scripts/shared.js';
+import { onAudienceChange } from '../../scripts/shared/audience-filter.js';
+
+const AUDIENCE_LABEL_RE = /^audience:/i;
+
+/**
+ * Authors tag a card for filtering with a trailing paragraph like
+ * "Audience: Executive, IT professional". Extract it into a data attribute
+ * for filtering and remove it from the visible card.
+ * @param {Element} li card list item
+ */
+function extractAudienceTags(li) {
+  const tagP = [...li.querySelectorAll('p')].find((p) => AUDIENCE_LABEL_RE.test(p.textContent.trim()));
+  if (!tagP) return;
+
+  const audiences = tagP.textContent
+    .replace(AUDIENCE_LABEL_RE, '')
+    .split(',')
+    .map((s) => toClassName(s.trim()))
+    .filter(Boolean);
+  if (audiences.length) li.dataset.audiences = audiences.join(',');
+  tagP.remove();
+}
+
+/**
+ * Show/hide cards based on the shared audience-filter selection. Cards with
+ * no authored audience tags are always shown. If a selection would hide every
+ * card in this rail, show them all instead rather than leaving an empty rail.
+ * @param {Element} block cards-course block
+ */
+function setupAudienceFiltering(block) {
+  const cards = [...block.querySelectorAll('li')].filter((li) => li.dataset.audiences);
+  if (!cards.length) return;
+
+  onAudienceChange((selected) => {
+    const matches = (li) => !selected || li.dataset.audiences.split(',').includes(selected);
+    const anyMatch = cards.some(matches);
+    cards.forEach((li) => {
+      li.classList.toggle('cards-course-card-hidden', anyMatch && !matches(li));
+    });
+  });
+}
 
 function buildLinksCard(article) {
   const href = normalizePath(article.path);
@@ -139,6 +180,8 @@ function decorateDefault(block) {
       });
     }
 
+    extractAudienceTags(li);
+
     const linkEl = li.querySelector('.cards-course-card-image a[href]') || li.querySelector('.cards-course-card-body a[href]');
     if (linkEl) {
       if (isUE) {
@@ -190,4 +233,5 @@ export default async function decorate(block) {
   } else {
     decorateDefault(block);
   }
+  setupAudienceFiltering(block);
 }
