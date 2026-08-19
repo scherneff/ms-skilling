@@ -8,6 +8,7 @@ import {
   isUE,
 } from '../../scripts/shared.js';
 import { onAudienceChange } from '../../scripts/shared/audience-filter.js';
+import { openModal } from '../modal/modal.js';
 
 const AUDIENCE_LABEL_RE = /^audience:/i;
 const YOUTUBE_LINK_SELECTOR = 'a[href*="youtube.com"], a[href*="youtu.be"]';
@@ -29,10 +30,11 @@ function getYoutubeId(href) {
 
 /**
  * Authors can drop a YouTube URL in the image column instead of a picture.
- * Replace it with a lightweight thumbnail + click-to-play control (an eager
- * iframe per card would be heavy for a rail with several video cards).
+ * Replace it with a lightweight thumbnail + play button (an eager iframe per
+ * card would be heavy for a rail with several video cards); clicking it opens
+ * the video full-size in the shared modal dialog rather than inline.
  * @param {Element} imageDiv the .cards-course-card-image column
- * @param {string} title card title, used for the play button's label
+ * @param {string} title card title, used for the player/button labels
  */
 function buildVideoThumb(imageDiv, title) {
   const link = imageDiv.querySelector(YOUTUBE_LINK_SELECTOR);
@@ -58,14 +60,14 @@ function buildVideoThumb(imageDiv, title) {
   imageDiv.querySelector('.cards-course-card-play').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    imageDiv.replaceChildren(createTag('iframe', {
+    const iframe = createTag('iframe', {
       src: `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1`,
       title: title ? `${title} — video` : 'YouTube video player',
       allow: 'autoplay; encrypted-media; picture-in-picture',
       allowfullscreen: '',
-      loading: 'lazy',
-    }));
-  }, { once: true });
+    });
+    openModal(createTag('div', { class: 'modal-video-frame' }, iframe), { video: true });
+  });
 }
 
 /**
