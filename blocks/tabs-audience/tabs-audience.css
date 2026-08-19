@@ -5,8 +5,8 @@
  * Fluent-UI style pills. Each pill sets the shared audience-filter state
  * (see scripts/shared/audience-filter.js) that cards-course rails read to
  * show/hide cards; the active pill is a filled light-purple pill, inactive
- * ones are plain text, and the trailing "Explore more content" pill (which
- * clears the filter) is bold text with no fill.
+ * ones are plain text. "All Personas" clears the filter like any other pill
+ * -- it's not visually distinguished from the persona pills next to it.
  *
  * Decorated DOM: .tabs-audience > div (row) > div (cell, role="button") > p (label)
  * All values extracted from source getComputedStyle.
@@ -57,16 +57,6 @@
 
 .tabs-audience > div > div.is-active > p {
   font-weight: 600; /* source active */
-  color: var(--asn-text); /* #242424 */
-}
-
-/* Trailing "Explore more content" (last) */
-.tabs-audience > div:last-child > div {
-  padding: 5px 12px; /* source explore button */
-}
-
-.tabs-audience > div:last-child > div > p {
-  font-weight: 600; /* source */
   color: var(--asn-text); /* #242424 */
 }
 

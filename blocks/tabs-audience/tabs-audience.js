@@ -149,16 +149,17 @@ function buildTabsFromSections(tabSections) {
 }
 
 /**
- * The authored audience labels (Executive, Developer, ..., Explore more
- * content) as a flat pill row with no per-audience content sections. Each
- * pill drives the shared audience-filter state that the cards-course rails
- * subscribe to; "Explore more content" clears the filter (shows everything).
+ * The authored audience labels (All Personas, Executive, Developer, ...) as a
+ * flat pill row with no per-audience content sections. Each pill drives the
+ * shared audience-filter state that the cards-course rails subscribe to;
+ * "All Personas" (or the legacy "Explore more content" label) clears the
+ * filter so every audience shows again.
  */
 function decorateAudiencePills(block) {
   decorateFilterPills(
     block,
     { setSelected: setSelectedAudience, onChange: onAudienceChange },
-    (text) => /explore/i.test(text),
+    (text) => /^all|explore/i.test(text),
   );
 }
 
