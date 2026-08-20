@@ -5,7 +5,7 @@
 
 import { createFilterState } from './filter-state.js';
 
-const state = createFilterState('executive');
+const state = createFilterState(null);
 
 export const getSelectedAudience = state.getSelected;
 export const setSelectedAudience = state.setSelected;
